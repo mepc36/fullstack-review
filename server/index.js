@@ -20,11 +20,15 @@ app.post('/repos', function (req, res) {
       res.end(errorStringified);
     } else {
       var resultStringified = JSON.stringify(result);
-      console.log('Server\'s POST Result: \n' + resultStringified);
       for (var i = 0; i < result.length; i++) {
+        // make database.save return a promise
+        // push those promises into an array
+        // After that array is done, pass that array into Promise.all();
+        // Then call res.status(200)
         database.save(result[i]);
       }
     }
+
     res.status(200);
     res.end(resultStringified);
   });
@@ -32,24 +36,18 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   
-  // console.log('GET received!')
-
   github.getAllRepos((error, result) => {
     if (error) {
-      // console.log('getAllRepos Error:' + error);
 
       var errorStringified = JSON.stringify(error);
       res.status(500);
       res.end(errorStringified);
     } else {
-      // console.log('getAllRepos Result: ' + result);
-
       var resultStringified = JSON.stringify(result);
+      res.status(200);
+      res.end(resultStringified);
     }
-    res.status(200);
-    res.end(resultStringified);
   })
-
 });
 
 let port = 1128;

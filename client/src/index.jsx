@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
-// import { getAllRepos } from '../../server/github.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -25,7 +24,9 @@ class App extends React.Component {
         var parsedResult = JSON.parse(result);
         var newRepos = this.state.repos;
         for (var i = 0; i < parsedResult.length; i++) {
-          newRepos.push(parsedResult[i]);
+          if (newRepos.includes(parsedResult[i]) === false) {
+            newRepos.push(parsedResult[i]);
+          }
         }
         this.setState({
           repos: newRepos
@@ -44,7 +45,7 @@ class App extends React.Component {
       success: (result) => {
         var parsedResult = JSON.parse(result);
         var loadedRepos = this.state.repos;
-        
+
         for (var i = 0; i < 25; i++) {
           loadedRepos.push(parsedResult[i]);
         }

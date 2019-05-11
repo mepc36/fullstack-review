@@ -43,19 +43,14 @@ let getReposByUsername = (name, callback) => {
 };
 
 var getAllRepos = (callback) => {
-  // console.log('calling getAllRepos!');
 
   database.retrieve((error, result) => {
     if (error) {
-      // console.log(error);
       callback(error, null);
     } else {
-      // console.log(result);
       callback(null, result);
     }
   });
-  // callback(null, retrievedRepos);
-  // callback(null, result);
 }
 
 module.exports.getReposByUsername = getReposByUsername;
