@@ -10,10 +10,23 @@ class RepoList extends React.Component {
   }
 
   render() {
-    return (
-      <RepoListItem />
-    )
+      if (this.props.repos.length !== 0) {
+        return (
+          <ol>
+            {this.props.repos.map((item) => {
+              return (<RepoListItem repo={item} />)
+            })}
+          </ol>
+        )
+      } else {
+        return (
+          <ol>
+            <RepoListItem repo={''}/>
+          </ol>
+        )
+      }
+    }
   }
-}
+
 
 export default RepoList;

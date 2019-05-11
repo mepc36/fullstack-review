@@ -29,6 +29,9 @@ class App extends React.Component {
         this.setState({
           repos: newRepos
         })
+      },
+      error: (error) => {
+        console.log(error);
       }
     })
   }

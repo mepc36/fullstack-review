@@ -10,7 +10,7 @@ class RepoListItem extends React.Component {
 
   render() {
     return (
-      <ul>Repo List Item</ul>
+      <li><a href={this.props.repo.repos_URL}>{this.props.repo.repo_name}</a></li>
     )
   }
 }

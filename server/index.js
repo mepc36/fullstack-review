@@ -15,6 +15,10 @@ app.post('/repos', function (req, res) {
   getReposByUsername(searchTerm, (error, result) => {
     if (error) {
       console.log('Error: ' + error);
+      var errorStringified = JSON.stringify(error);
+      // set status code
+      res.status(500);
+      res.end(errorStringified);
     } else {
       var resultStringified = JSON.stringify(result);
       console.log('Server\'s POST Result: \n' + resultStringified);
@@ -22,6 +26,7 @@ app.post('/repos', function (req, res) {
         database.save(result[i]);
       }
     }
+    res.status(200);
     res.end(resultStringified);
   });
 });

@@ -15,15 +15,15 @@ let getReposByUsername = (name, callback) => {
     var recordInfo = {};
     if (error) {
       console.log('gRBUN:' + error);
+      callback(error, null);
     } else {
       var responseJSON = JSON.parse(response.body);
       var recordsArray = [];
       
-      for ( var i = 0; i < 10; i++) {
+      for ( var i = 0; i < responseJSON.length; i++) {
 
         if (responseJSON[i] === undefined) {
-          console.log('Error!');
-          callback('Not a user name!', null);
+          callback('Not a user name 2!', null);
         } else {
           recordInfo = {};
           recordInfo = {
