@@ -20,6 +20,7 @@ let repoSchema = mongoose.Schema({
   repo_name: String,
   repo_id: Number,
   repo_desc: String,
+  stargazers_count: Number
 });
 
 var Repo = mongoose.model('Repo', repoSchema);
