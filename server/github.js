@@ -12,24 +12,32 @@ let getReposByUsername = (name, callback) => {
   };
 
   request(options, (error, response, body) => {
+    var recordInfo = {};
     if (error) {
-      console.log('gRBUN:' + error)
+      console.log('gRBUN:' + error);
     } else {
       var responseJSON = JSON.parse(response.body);
-      // console.log(responseJSON[0].owner.login) // repo owner's name
-      // console.log(responseJSON[0].name); // repo name
-      // console.log(responseJSON[0].id); // repo id
-      // console.log(responseJSON[0].description) // repo description
-      // console.log(responseJSON[0].html_url) // repo URL
-      var recordInfo = {
-        userName: responseJSON[0].owner.login,
-        repos_URL: responseJSON[0].html_url,
-        repo_name: responseJSON[0].name,
-        repo_id: responseJSON[0].id,
-        repo_desc: responseJSON[0].description,
-        stargazers_count: responseJSON[0].stargazers_count
+      var recordsArray = [];
+      
+      for ( var i = 0; i < 10; i++) {
+
+        if (responseJSON[i] === undefined) {
+          console.log('Error!');
+          callback('Not a user name!', null);
+        } else {
+          recordInfo = {};
+          recordInfo = {
+            userName: responseJSON[i].owner.login,
+            repos_URL: responseJSON[i].html_url,
+            repo_name: responseJSON[i].name,
+            repo_id: responseJSON[i].id,
+            repo_desc: responseJSON[i].description,
+            stargazers_count: responseJSON[i].stargazers_count
+          }
+          recordsArray.push(recordInfo);
+        }  
       }
-      callback(null, recordInfo);
+      callback(null, recordsArray);
     }
   });
 

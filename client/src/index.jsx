@@ -10,7 +10,6 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
-
   }
 
   search (term) {
@@ -21,7 +20,15 @@ class App extends React.Component {
       url: '/repos',
       data: dataObject,
       success: (result) => {
-        console.log('index.jsx result: ' + result);
+        console.log('Repos: ' + result);
+        var parsedResult = JSON.parse(result);
+        var newRepos = this.state.repos;
+        for (var i = 0; i < parsedResult.length; i++) {
+          newRepos.push(parsedResult[i]);
+        }
+        this.setState({
+          repos: newRepos
+        })
       }
     })
   }
