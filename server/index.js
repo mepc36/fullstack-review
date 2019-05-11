@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 let app = express();
-const { getReposByUsername } = require('./github')
+const github = require('./github');
 const database  = require('../database/index.js')
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -12,11 +12,10 @@ app.post('/repos', function (req, res) {
 
   var searchTerm = req.body.term;
 
-  getReposByUsername(searchTerm, (error, result) => {
+  github.getReposByUsername(searchTerm, (error, result) => {
     if (error) {
       console.log('Error: ' + error);
       var errorStringified = JSON.stringify(error);
-      // set status code
       res.status(500);
       res.end(errorStringified);
     } else {
@@ -32,14 +31,30 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - Write a function that sends back the top 25 repos
+  
+  // console.log('GET received!')
 
+  github.getAllRepos((error, result) => {
+    if (error) {
+      // console.log('getAllRepos Error:' + error);
+
+      var errorStringified = JSON.stringify(error);
+      res.status(500);
+      res.end(errorStringified);
+    } else {
+      // console.log('getAllRepos Result: ' + result);
+
+      var resultStringified = JSON.stringify(result);
+    }
+    res.status(200);
+    res.end(resultStringified);
+  })
 
 });
 
 let port = 1128;
 
 app.listen(port, function() {
-  console.log(`listening on port ${port}`);
+  console.log(`Listening on port ${port}!`);
 });
 

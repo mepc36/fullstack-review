@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+// import { getAllRepos } from '../../server/github.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -32,6 +33,27 @@ class App extends React.Component {
       },
       error: (error) => {
         console.log(error);
+      }
+    })
+  }
+
+  componentDidMount() {
+    $.ajax({
+      method: "GET",
+      url: '/repos',
+      success: (result) => {
+        var parsedResult = JSON.parse(result);
+        var loadedRepos = this.state.repos;
+        
+        for (var i = 0; i < 25; i++) {
+          loadedRepos.push(parsedResult[i]);
+        }
+        this.setState({
+          repos: loadedRepos
+        })
+      },
+      error: (error) => {
+        console.log('Error: '+ error);
       }
     })
   }

@@ -1,5 +1,6 @@
 const request = require('request');
 const config = require('../config.js');
+const database  = require('../database/index.js');
 
 let getReposByUsername = (name, callback) => {
 
@@ -14,7 +15,6 @@ let getReposByUsername = (name, callback) => {
   request(options, (error, response, body) => {
     var recordInfo = {};
     if (error) {
-      console.log('gRBUN:' + error);
       callback(error, null);
     } else {
       var responseJSON = JSON.parse(response.body);
@@ -40,7 +40,23 @@ let getReposByUsername = (name, callback) => {
       callback(null, recordsArray);
     }
   });
-
 };
 
+var getAllRepos = (callback) => {
+  // console.log('calling getAllRepos!');
+
+  database.retrieve((error, result) => {
+    if (error) {
+      // console.log(error);
+      callback(error, null);
+    } else {
+      // console.log(result);
+      callback(null, result);
+    }
+  });
+  // callback(null, retrievedRepos);
+  // callback(null, result);
+}
+
 module.exports.getReposByUsername = getReposByUsername;
+module.exports.getAllRepos = getAllRepos;

@@ -2,15 +2,14 @@ const mongoose = require('mongoose');
 const db = mongoose.connection;
 const express = require('express');
 const app = express();
-const bodyParser=  require('body-Parser')
-const fs = require('fs');
 
 mongoose.connect('mongodb://localhost/fetcher');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log('Database connected!');
+  // console.log('Database connected!');
 });
+
 
 let repoSchema = mongoose.Schema({
   userName: String,
@@ -21,7 +20,6 @@ let repoSchema = mongoose.Schema({
   stargazers_count: Number
 });
 
-// This function saves a response from the GitHub API to a MongoDB:
 var save = (record) => {
   var Repo = mongoose.model('Repo', repoSchema);
   var nextRepo = new Repo(record);
@@ -31,7 +29,22 @@ var save = (record) => {
       console.error('Error', error);
     }
   })
-  console.log('Successful insertion inside \'save\'!');
+  // console.log('Successful insertion inside \'save\'!');
+}
+
+var retrieve = (callback) => {
+  var Repo = mongoose.model('Repo', repoSchema);
+  
+  Repo.find({userName: "mepc36"}).exec((error, result) => {
+    if (error) {
+      // console.log(error)
+      callback(error, null)
+    } else {
+      // console.log(result);
+      callback(null, result)
+    }
+  });
 }
 
 module.exports.save = save;
+module.exports.retrieve = retrieve;
