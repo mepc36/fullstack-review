@@ -38,7 +38,7 @@ var retrieve = (callback) => {
   var Repo = mongoose.model('Repo', repoSchema);
   
   // user .sort() to find the highest stargazer count
-  Repo.find({userName: "mepc36"}).sort({stargazers_count: -1}).exec((error, result) => {
+  Repo.find().sort({stargazers_count: -1}).exec((error, result) => {
     if (error) {
       callback(error, null)
     } else {

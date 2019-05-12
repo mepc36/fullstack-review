@@ -20,11 +20,15 @@ class App extends React.Component {
       url: '/repos',
       data: dataObject,
       success: (result) => {
-        console.log('Repos: ' + result);
+        // console.log('Repos: ' + result);
         var parsedResult = JSON.parse(result);
         var newRepos = this.state.repos;
+        var keys = [];
+        for (var i = 0; i < newRepos.length; i++) {
+          keys.push(newRepos[i].repo_id);
+        }
         for (var i = 0; i < parsedResult.length; i++) {
-          if (newRepos.includes(parsedResult[i]) === false) {
+          if (keys.includes(parsedResult[i].repo_id) === false) {
             newRepos.push(parsedResult[i]);
           }
         }
@@ -45,7 +49,7 @@ class App extends React.Component {
       success: (result) => {
         var parsedResult = JSON.parse(result);
         var loadedRepos = this.state.repos;
-
+        console.log('Result: ' + result)
         for (var i = 0; i < 25; i++) {
           loadedRepos.push(parsedResult[i]);
         }
